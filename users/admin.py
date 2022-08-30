@@ -17,9 +17,15 @@ class CustomUserAdmin(UserAdmin):
         "is_admin",
         "is_staff",
     )
-    search_fields = ("username",)
+    search_fields = (
+        "username",
+        "email",
+    )
     readonly_fields = ("id", "date_joined", "last_login")
-    ordering = ("username",)
+    ordering = (
+        "username",
+        "email",
+    )
 
     filter_horizontal = ()
     list_filter = ()
@@ -49,7 +55,7 @@ class CustomUserAdmin(UserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("username", "password1", "password2"),
+                "fields": ("email", "password1", "password2"),
             },
         ),
     )
