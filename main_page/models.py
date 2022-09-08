@@ -11,6 +11,7 @@ class Dictionary(models.Model):
 
     class Meta:
         ordering = ["word"]
+        verbose_name = "dictionary"
         verbose_name_plural = "dictionaries"
 
     def __str__(self) -> str:
