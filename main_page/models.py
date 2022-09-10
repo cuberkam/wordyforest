@@ -1,13 +1,11 @@
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
 class Dictionary(models.Model):
     word = models.CharField(max_length=1000)
     type = models.CharField(max_length=1000)
-    description = ArrayField(models.CharField(max_length=1000, blank=True))
-    similars = ArrayField(models.CharField(max_length=1000, blank=True))
-    antonyms = ArrayField(models.CharField(max_length=1000, blank=True))
+    description = models.CharField(max_length=1000, blank=True)
+    example = models.CharField(max_length=1000, blank=True, null=True)
 
     class Meta:
         ordering = ["word"]
