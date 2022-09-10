@@ -32,19 +32,25 @@
     </div>
 
     <div class="col-sm-12 box p-3">
-      <p class="mb-1 font-weight-bold">WORD</p>
-      <p class="wire-frame p-2 text-uppercase">
-        <span id="word">{{ word.word }}</span>
-        <span>({{ word.type }})</span>
+      <p class="mb-1 fw-bold">WORD</p>
+      <p class="wire-frame p-2">
+        <span id="word" class="text-uppercase">{{ word.word }}</span>
+        <span id="type">({{ word.type }})</span>
       </p>
 
-      <p class="mb-1 font-weight-bold">DESCRIPTION</p>
-      <div id="description" class="wire-frame p-2">
-        <ul>
-          {%for item in word.description%}
-          <li>{{ item }}</li>
-          {% endfor %}
-        </ul>
+      <p class="mb-1 fw-bold">DESCRIPTION</p>
+      <div class="wire-frame p-2 mb-3">
+        <span id="description" class="upper-fl">{{ word.description }}</span>
+      </div>
+
+      <p class="mb-1 fw-bold">EXAMPLE</p>
+      <div class="wire-frame p-2">
+        {% if word.example == None %}
+        <span id="example"> </span>
+        {% else %}
+        <span id="example" class="upper-fl">{{ word.example }}</span>
+        {% endif %}
+
       </div>
     </div>
   </div>

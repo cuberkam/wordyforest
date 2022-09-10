@@ -60,6 +60,7 @@ body {
     border: 0.1rem solid var(--dark-blue);
     width: 100%;
     border-radius: 0.5rem;
+    background-color: var(--primary-bg);
 }
 
 .button {
