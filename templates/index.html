@@ -33,18 +33,18 @@
 
     <div class="col-sm-12 box p-3">
       <p class="mb-1 fw-bold">WORD</p>
-      <p class="wire-frame p-2">
+      <p class="wire-frame p-3">
         <span id="word" class="text-uppercase">{{ word.word }}</span>
         <span id="type">({{ word.type }})</span>
       </p>
 
       <p class="mb-1 fw-bold">DESCRIPTION</p>
-      <div class="wire-frame p-2 mb-3">
+      <div class="wire-frame p-3 mb-3">
         <span id="description" class="upper-fl">{{ word.description }}</span>
       </div>
 
       <p class="mb-1 fw-bold">EXAMPLE</p>
-      <div class="wire-frame p-2">
+      <div class="wire-frame p-3">
         {% if word.example == None %}
         <span id="example"> </span>
         {% else %}
@@ -88,4 +88,20 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  $(document).on('submit', '#task-form', function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "index" %}',
+      data: {
+        task: $("#task").val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+      },
+      success: function () {
+        alert('Saved');
+      }
+    })
+  });
+</script>
 {% endblock %}
