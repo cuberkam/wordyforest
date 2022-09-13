@@ -19,7 +19,7 @@
 
     <div class="col-sm-8 px-0">
       <div class="float-end row">
-        <form class="col" method="post">
+        <form id="post-form" class="col" action="{% url 'index' %}" method="post">
           {% csrf_token %}
           <input type="hidden" name="button" value="next">
           <input type="hidden" name="word_list" value="{{word_list}}" />
@@ -35,7 +35,9 @@
       <p class="mb-1 fw-bold">WORD</p>
       <p class="wire-frame p-3">
         <span id="word" class="text-uppercase">{{ word.word }}</span>
+        {% if word.type %}
         <span id="type">({{ word.type }})</span>
+        {% endif %}
       </p>
 
       <p class="mb-1 fw-bold">DESCRIPTION</p>
@@ -88,20 +90,4 @@
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  $(document).on('submit', '#task-form', function (e) {
-    e.preventDefault();
-    $.ajax({
-      type: 'POST',
-      url: '{% url "index" %}',
-      data: {
-        task: $("#task").val(),
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-      },
-      success: function () {
-        alert('Saved');
-      }
-    })
-  });
-</script>
 {% endblock %}

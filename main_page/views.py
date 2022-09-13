@@ -15,6 +15,8 @@ def give_random_word(queryset):
 
 
 def index(request):
+    context = {"word_list": "all_word"}
+
     if request.method == "POST":
         button_name = request.POST.get("button")
         if button_name == "next":
@@ -22,16 +24,16 @@ def index(request):
             word_id = request.POST.get("word_id")
 
             if word_list == "all_word":
-                queryset = Dictionary.objects.all().exclude(id=word_id)
+                if word_id != "":
+                    queryset = Dictionary.objects.all().exclude(id=word_id)
+                else:
+                    queryset = Dictionary.objects.all()
+
                 word = give_random_word(queryset)
                 context = {
                     "word": word,
-                    "next_word_list": "all_word",
-                    "prev_word_id": word_id,
+                    "word_list": "all_word",
                 }
                 return render(request, "index.html", context)
 
-    queryset = Dictionary.objects.all()
-    word = give_random_word(queryset)
-    context = {"word": word, "word_list": "all_word"}
     return render(request, "index.html", context)

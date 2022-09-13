@@ -156,7 +156,7 @@ body {
 }
 
 .p-20 {
-    padding: 1.25rem;
+    padding: 1rem;
 }
 
 .a-text {
@@ -572,3 +572,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* #endregion 404 */
+
+li {
+    text-decoration: none;
+}
