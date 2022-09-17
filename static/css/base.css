@@ -3,15 +3,19 @@
 
 :root {
     --dark-blue: #122F54;
-    --primary-bg: #FCF4C8;
-    --secondary-bg: #E9CA92;
+    --dark-red: #541212;
+    --dark-red-light: #5412125a;
+    --dark-green: #0D420F;
+    --dark-green-light: #0D420F5a;
+    --primary: #FCF4C8;
+    --secondary: #E9CA92;
     --font-roboto: 'Roboto', sans-serif;
     --font-rubik: 'Rubik Mono One', sans-serif;
 }
 
 body {
     font-family: var(--font-roboto);
-    background-color: var(--primary-bg);
+    background-color: var(--primary);
     color: var(--dark-blue);
 }
 
@@ -22,7 +26,7 @@ body {
 }
 
 .logo:hover{
-    color: var(--secondary-bg);
+    color: var(--secondary);
 }
 
 .active{
@@ -39,19 +43,19 @@ body {
 }
 
 .link:hover {
-    color: var(--primary-bg);
+    color: var(--primary);
     background-color: var(--dark-blue);
     text-decoration: none;
 }
 
 .active-link {
-    color: var(--primary-bg);
+    color: var(--primary);
     background-color: var(--dark-blue);
 }
 
 .box {
     height: fit-content;
-    background-color: var(--secondary-bg);
+    background-color: var(--secondary);
     border-radius: 0.5rem;
     margin-bottom: 1rem;
 }
@@ -60,15 +64,19 @@ body {
     border: 0.1rem solid var(--dark-blue);
     width: 100%;
     border-radius: 0.5rem;
-    background-color: var(--primary-bg);
+    background-color: var(--primary);
 }
 
-.button {
+.text-red{
+    color: var(--dark-red);
+}
+
+.button-blue {
     width: fit-content;
     height: fit-content;
     padding: .375rem .75rem;
     letter-spacing: 2.5px;
-    color: var(--primary-bg);
+    color: var(--primary);
     background-color: var(--dark-blue);
     border: none;
     border-radius: 0.5rem;
@@ -82,38 +90,8 @@ body {
     cursor: pointer;
 }
 
-.button-l {
-    width: fit-content;
-    height: fit-content;
-    padding: .375rem .75rem;
-    letter-spacing: 2.5px;
-    color: var(--dark-blue);
-    background-color: var(--secondary-bg);
-    border: none;
-    border-radius: 0.5rem;
-    -webkit-transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
-    cursor: pointer;
-}
-
-.button-dark:hover {
-    background-color: var(--secondary-bg);
-    -webkit-box-shadow: 0px 15px 20px rgba(233, 202, 146, 0.4);
-    -moz-box-shadow: 0px 15px 20px rgba(233, 202, 146, 0.4);
-    box-shadow: 0px 15px 20px rgba(233, 202, 146, 0.4);
-    color: var(--dark-blue);
-    -webkit-transform: translateY(-0.2rem);
-    -moz-transform: translateY(-0.2rem);
-    -o-transform: translateY(-0.2rem);
-    -ms-transform: translateY(-0.2rem);
-    transform: translateY(-0.2rem);
-    width: fit-content;
-}
-
-.button-light:hover {
-    background-color: rgb(252, 244, 200);
+.button-blue-light:hover {
+    background-color: var(--primary);
     -webkit-box-shadow: 0px 15px 20px rgba(252, 244, 200, 0.4);
     -moz-box-shadow: 0px 15px 20px rgba(252, 244, 200, 0.4);
     box-shadow: 0px 15px 20px rgba(252, 244, 200, 0.4);
@@ -127,9 +105,42 @@ body {
     width: fit-content;
 }
 
+.button-red {
+    width: fit-content;
+    height: fit-content;
+    padding: .375rem .75rem;
+    letter-spacing: 2.5px;
+    color: var(--primary);
+    background-color: var(--dark-red);
+    border: none;
+    border-radius: 0.5rem;
+    -webkit-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+}
+
+.button-red-light:hover {
+    background-color: var(--primary);
+    -webkit-box-shadow: 0px 15px 20px rgba(252, 244, 200, 0.4);
+    -moz-box-shadow: 0px 15px 20px rgba(252, 244, 200, 0.4);
+    box-shadow: 0px 15px 20px rgba(252, 244, 200, 0.4);
+    color: var(--dark-red);
+    -webkit-transform: translateY(-0.2rem);
+    -moz-transform: translateY(-0.2rem);
+    -o-transform: translateY(-0.2rem);
+    -ms-transform: translateY(-0.2rem);
+    transform: translateY(-0.2rem);
+    outline: none;
+}
+
 .dropdown-list {
     background-color: var(--dark-blue);
-    color: var(--primary-bg);
+    color: var(--primary);
     padding: .375rem .75rem;
     font-family: var(--font-roboto);
     letter-spacing: 2.5px;
@@ -147,7 +158,7 @@ body {
 
 .dropdown-list:hover,
 .dropdown-list:focus {
-    background-color: var(--secondary-bg);
+    background-color: var(--secondary);
     color: var(--dark-blue);
     -webkit-box-shadow: 0px 15px 20px rgba(233, 202, 146, 0.4);
     -moz-box-shadow: 0px 15px 20px rgba(233, 202, 146, 0.4);
@@ -165,7 +176,7 @@ body {
 
 .a-text:hover {
     text-decoration: none;
-    color: var(--primary-bg);
+    color: var(--primary);
     text-shadow: 0px 0px 3px var(--dark-blue);
 }
 
@@ -190,23 +201,27 @@ body {
 
 .accordion-card-header:hover,
 .accordion-card-header:focus {
-    color: var(--primary-bg);
+    color: var(--primary);
     background-color: var(--dark-blue);
     outline: none;
 }
 
-.borderbottom {
-    border-bottom: 0.1rem solid var(--dark-blue);
+.borderbottom-blue {
+    border-bottom: 0.2rem solid var(--dark-blue);
+}
+
+.borderbottom-red {
+    border-bottom: 0.2rem solid var(--dark-red);
 }
 
 .cubuk {
-    background-color: var(--primary-bg);
+    background-color: var(--primary);
     border: 1px solid var(--dark-blue);
 }
 
 .edit-box {
     background-color: var(--dark-blue);
-    color: var(--primary-bg);
+    color: var(--primary);
 }
 
 .title {
@@ -215,7 +230,7 @@ body {
 }
 
 .text-mute {
-    color: var(--primary-bg);
+    color: var(--primary);
     font-size: small;
     letter-spacing: 0.08rem;
 }
@@ -300,28 +315,28 @@ ul{
 
 .dropdown-item:hover {
     background-color: var(--dark-blue);
-    color: var(--primary-bg);
+    color: var(--primary);
 }
 
 .card {
-    background-color: var(--secondary-bg);
+    background-color: var(--secondary);
 }
 
 .form-control {
-    background-color: var(--primary-bg);
+    background-color: var(--primary);
     color: var(--dark-blue);
     border-color: var(--dark-blue);
 }
 
 .alert {
     background-color: var(--dark-blue);
-    color: var(--primary-bg);
+    color: var(--primary);
     border-radius: 0.3rem;
 }
 
 .badge-primary {
     background-color: var(--dark-blue);
-    color: var(--primary-bg);
+    color: var(--primary);
     font-size: 1rem;
     transition: all 0.3s;
     cursor: default;
@@ -334,7 +349,7 @@ ul{
 }*/
 
 .custom-file-label {
-    background-color: var(--primary-bg);
+    background-color: var(--primary);
 }
 
 input[type="file"] {
@@ -350,7 +365,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-    background-color: var(--secondary-bg);
+    background-color: var(--secondary);
 }
 
 body::-webkit-scrollbar-thumb {
@@ -397,7 +412,7 @@ body::-webkit-scrollbar-thumb {
     top: 0;
     bottom: 0;
     width: 1px;
-    background-color: var(--primary-bg);
+    background-color: var(--primary);
 }
 
 #notfound .notfound-bg>div:nth-child(1) {
@@ -497,7 +512,7 @@ body::-webkit-scrollbar-thumb {
     font-size: 188px;
     font-weight: 700;
     margin: 0px;
-    text-shadow: 4px 4px 0px var(--secondary-bg);
+    text-shadow: 4px 4px 0px var(--secondary);
 }
 
 .notfound h2 {
@@ -524,8 +539,8 @@ body::-webkit-scrollbar-thumb {
     color: var(--dark-blue);
     font-weight: 400;
     text-transform: uppercase;
-    -webkit-box-shadow: 0px 0px 0px 2px #122F54, 2px 2px 0px 2px var(--secondary-bg);
-    box-shadow: 0px 0px 0px 2px #122F54, 2px 2px 0px 2px var(--secondary-bg);
+    -webkit-box-shadow: 0px 0px 0px 2px #122F54, 2px 2px 0px 2px var(--secondary);
+    box-shadow: 0px 0px 0px 2px #122F54, 2px 2px 0px 2px var(--secondary);
     text-decoration: none;
     -webkit-transition: 0.2s all;
     transition: 0.2s all;
@@ -533,9 +548,9 @@ body::-webkit-scrollbar-thumb {
 
 .notfound a:hover {
     background-color: var(--dark-blue);
-    color: var(--primary-bg);
-    -webkit-box-shadow: 0px 0px 0px 0px #122F54, 0px 0px 0px 2px var(--primary-bg);
-    box-shadow: 0px 0px 0px 0px #122F54, 0px 0px 0px 2px var(--primary-bg);
+    color: var(--primary);
+    -webkit-box-shadow: 0px 0px 0px 0px #122F54, 0px 0px 0px 2px var(--primary);
+    box-shadow: 0px 0px 0px 0px #122F54, 0px 0px 0px 2px var(--primary);
 }
 
 .notfound-social {
