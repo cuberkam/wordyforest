@@ -33,7 +33,6 @@ def login_user(request):
 
 def register(request):
     form = forms.RegisterForm(request.POST or None)
-    form_errors = dict(form.errors)["__all__"][0]
 
     if form.is_valid():
         email = form.cleaned_data.get("email")
@@ -46,7 +45,8 @@ def register(request):
         login(request, new_user)
 
         return redirect("index")
-    elif form_errors != "None":
+    elif form.errors != {}:
+        form_errors = form.non_field_errors().as_text()
         messages.error(request, form_errors)
     context = {"form": form}
     return render(request, "register.html", context)
