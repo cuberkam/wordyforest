@@ -45,7 +45,9 @@ def replace_translate_result(word, dest):
 
         for item in all_translations:
             for data in item[2]:
-                word_with_synonyms = f"<li><strong>{data[0]}</strong>: "
+                word_with_synonyms = (
+                    word_with_synonyms + f"<li><strong>{data[0]}</strong>: "
+                )
                 for i in data[1]:
                     word_with_synonyms = word_with_synonyms + f"{i}, "
 
