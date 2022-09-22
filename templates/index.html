@@ -1,93 +1,113 @@
 {% extends 'base.html' %}
 {% block title %} Main Page {% endblock %}
 {% block content %}
-<div class="row">
-  <div class="col-md-8 row">
-    <div class="col-sm-4" style="padding-left: 0">
-      <div class="dropdown mb-2 cylist-sm">
-        <button type="button" class="dropdown-toggle dropdown-list mb-1" data-toggle="dropdown">
-          CHOOSE YOUR LIST
-        </button>
-        <ul id="choose-list" class="dropdown-menu">
-          <li class="dropdown-item">List 1</li>
-          <li class="dropdown-item">List 2</li>
-          <li class="dropdown-item">List 3</li>
-          <!--<li><input class="dropdown-item" type="submit" value="List 3"></li>-->
-        </ul>
-      </div>
-    </div>
 
-    <div class="col-sm-8 px-0">
-      <div class="float-end row">
-        <form id="post-form" class="col" action="{% url 'index' %}" method="post">
-          {% csrf_token %}
-          <input type="hidden" name="button" value="next">
-          <input type="hidden" name="word_list" value="{{word_list}}" />
-          <input type="hidden" name="word_id" value="{{word.id}}" />
-          <button class="button button-hover-dark button-blue mb-sm-1 generate-sm" style="outline: none">
-            NEXT
-          </button>
-        </form>
-      </div>
-    </div>
 
-    <div class="col-sm-12 box p-3">
-      <p class="mb-1 fw-bold">WORD</p>
-      <p class="wire-frame p-3">
-        <span id="word" class="text-uppercase">{{ word.word }}</span>
-        {% if word.type %}
-        <span id="type">({{ word.type }})</span>
-        {% endif %}
-      </p>
-
-      <p class="mb-1 fw-bold">DESCRIPTION</p>
-      <div class="wire-frame p-3 mb-3">
-        <span id="description" class="upper-fl">{{ word.description }}</span>
-      </div>
-
-      <p class="mb-1 fw-bold">EXAMPLE</p>
-      <div class="wire-frame p-3">
-        {% if word.example == None %}
-        <span id="example"> </span>
-        {% else %}
-        <span id="example" class="upper-fl">{{ word.example }}</span>
-        {% endif %}
-
-      </div>
+<div class="row" style="padding-right: 1rem;">
+  <div class="col">
+    <div class="dropdown mb-2 cylist-sm">
+      <button class="dropdown-toggle btn-dropdown button-hover-dark" type="button" data-bs-toggle="dropdown"
+        aria-expanded="true">
+        CHOOSE YOUR LIST
+      </button>
+      <ul id="choose-list" class="dropdown-menu">
+        <li class="dropdown-item">List 1</li>
+        <li class="dropdown-item">List 2</li>
+        <li class="dropdown-item">List 3</li>
+      </ul>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="col-12 mb-2">
-      <!--ChooseWeb Start-->
-      <div class="dropdown">
-        <button id="webSite" type="button" class="dropdown-toggle dropdown-list" data-toggle="dropdown" value=" ">
-          CHOOSE WEBSITE
+  <div class="col px-0">
+    <div class="float-end">
+      <form id="next-form" class="col" action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="button" value="next">
+        <input type="hidden" name="word_list" value="{{word_list}}" />
+        <input type="hidden" name="word_id" value="{{word.id}}" />
+        <button class="button button-hover-dark button-blue mb-sm-1 generate-sm" style="outline: none">
+          NEXT
         </button>
-        <ul id="choose-web" class="dropdown-menu">
-          <li class="dropdown-item">GOOGLE TRANSLATE</li>
-          <li class="dropdown-item">YANDEX TRANSLATE</li>
-        </ul>
-      </div>
-      <!--ChooseWeb End-->
-    </div>
-    <div class="col-12 mb-2">
-      <!--ChooseLang Start-->
-      <div class="dropdown">
-        <button id="yourLang" type="button" class="dropdown-toggle dropdown-list" data-toggle="dropdown" value=" ">
-          CHOOSE LANGUAGE
-        </button>
-        <ul id="choose-lang" class="dropdown-menu" style="overflow: auto; max-height: 20rem"></ul>
-      </div>
-      <!--ChooseLang End-->
-    </div>
-    <div class="col-12 mb-sm-4 translate-sm">
-      <button id="translate" class="button button-dark" style="outline: none; height: auto" onclick="trans()">
-        TRANSLATE
-      </button>
-      <br />
-      <small class="form-text text-muted">You must first choose a website before you can choose a
-        language.</small>
+      </form>
     </div>
   </div>
 </div>
+
+<div class="row box mx-1">
+  <div class="col p-3">
+    <p class="mb-1 fw-bold">WORD</p>
+    <p class="wire-frame p-3">
+      <span id="word" class="text-uppercase">{{ word.word }}</span>
+      {% if word.type %}
+      <span id="type">({{ word.type }})</span>
+      {% endif %}
+    </p>
+    <p class="mb-1 fw-bold">DESCRIPTION</p>
+    <div class="wire-frame p-3 mb-3">
+      <span id="description" class="upper-fl">{{ word.description }}</span>
+    </div>
+    <p class="mb-1 fw-bold">EXAMPLE</p>
+    <div class="wire-frame p-3">
+      {% if word.example == None %}
+      <span id="example"> </span>
+      {% else %}
+      <span id="example" class="upper-fl">{{ word.example }}</span>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col p-3">
+    <p class="mb-1 fw-bold">TRANSLATION</p>
+    <div class="wire-frame p-3">
+      <p class="mb-1">
+        <span class="fw-bold">WORD: </span>
+        {% if translated_data is None %}
+        Not Found
+        {% else %}
+        {{translated_data.word}}
+        {% endif %}
+      </p>
+      <p class="mb-1 fw-bold">TRANSLATIONS
+        {% if translated_data is not None %}
+        <ul>
+          {% for i in translated_data.translate %}
+          <li>{{i.type}}</li>
+          {% autoescape off %}
+          <ul>{{i.words}}</ul>
+          {% endautoescape %}
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </p>
+    </div>
+  </div>
+</div>
+
+<form id="translate-form" class="p-0 mb-3" action="{% url 'index' %}" method="post">
+  <div class="row pl-0" style="padding-right: .9rem;">
+    <div class="col">
+      <select class="form-select btn-dropdown button-hover-dark" style="width: 227px; padding-right: 2rem;"
+        name="destination_language">
+        {% if destination_language is None %}
+        <option selected disabled hidden>CHOOSE LANGUAGE</option>
+        {% endif %}
+        {% for language in languages %}
+        <option value="{{language.code}}"
+          {% if destination_language is not None and destination_language == language.code %} selected {% endif %}>
+          {{language.eng_name}} - {{language.native_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col p-0">
+      <div class="float-end">
+        {% csrf_token %}
+        <input type="hidden" name="button" value="translate">
+        <input type="hidden" name="word_list" value="{{word_list}}" />
+        <input type="hidden" name="word_id" value="{{word.id}}" />
+        <button class="button button-hover-dark button-blue" style="outline: none; height: auto">
+          TRANSLATE
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
 {% endblock %}

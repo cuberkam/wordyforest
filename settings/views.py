@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, logout
 from django.shortcuts import redirect, render
+from main_page.models import Languages
 
 from .forms import ChangeEmailForm, ChangePasswordForm
 
@@ -10,15 +11,31 @@ def setting_view(request):
     change_email_form = ChangeEmailForm(request.POST or None)
     change_password_form = ChangePasswordForm(request.POST or None)
     user = request.user
+    languages = Languages.objects.all()
 
     context = {
         "change_email_form": change_email_form,
         "change_password_form": change_password_form,
         "current_email": user.email,
+        "languages": languages,
     }
+
+    if user.language is not None:
+        context["destination_language"] = user.language
 
     if request.method == "POST":
         button_name = request.POST.get("button")
+
+        if button_name == "select_language":
+            destination_language = request.POST.get("destination_language")
+
+            if destination_language is None:
+                context["destination_language"] = None
+            else:
+                context["destination_language"] = destination_language
+                get_user_model().objects.filter(id=user.id).update(
+                    language=destination_language
+                )
 
         if button_name == "change_email":
             if change_email_form.is_valid():

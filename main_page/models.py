@@ -14,3 +14,17 @@ class Dictionary(models.Model):
 
     def __str__(self) -> str:
         return self.word
+
+
+class Languages(models.Model):
+    code = models.CharField(unique=True, max_length=10)
+    eng_name = models.CharField(max_length=100)
+    native_name = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ["code"]
+        verbose_name = "language"
+        verbose_name_plural = "languages"
+
+    def __str__(self) -> str:
+        return f"{self.code} : {self.eng_name}"

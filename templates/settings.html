@@ -3,6 +3,38 @@
 {% block content %}
 <div class="box p-5">
   <h1 class="text-center fw-bold">SETTINGS</h1>
+
+  <div id="select_language">
+    <h2 class="borderbottom-blue">Select Language</h2>
+    <span>Select language for translation in home page.</span>
+    <form id="translate-form" class="p-0 mb-3 mt-3" action="{% url 'settings' %}" method="post">
+      <div class="row pl-0" style="padding-right: .9rem;">
+        <div class="col">
+          <select class="form-select btn-dropdown button-hover-light" style="width: 227px; padding-right: 2rem;"
+            name="destination_language">
+            {% if destination_language is None %}
+            <option selected disabled hidden>CHOOSE LANGUAGE</option>
+            {% endif %}
+            {% for language in languages %}
+            <option value="{{language.code}}"
+              {% if destination_language is not None and destination_language == language.code %} selected {% endif %}>
+              {{language.eng_name}} - {{language.native_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col p-0">
+          <div class="float-end">
+            {% csrf_token %}
+            <input type="hidden" name="button" value="select_language">
+            <button class="button button-hover-light button-blue" style="outline: none; height: auto">
+              SAVE
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
   <div id="change-email">
     <h2 class="borderbottom-blue">Change Email</h2>
     <span>Current Email: <strong>{{current_email}}</strong> </span>
