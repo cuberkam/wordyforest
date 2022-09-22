@@ -67,7 +67,7 @@ def replace_translate_result(word, dest):
 
 def index(request):
     languages = Languages.objects.all()
-    context = {"word_list": "all_word"}
+    context = {"word_list": "all_word", "translated_data": ""}
     user_language = request.user.language
 
     if request.method == "POST":

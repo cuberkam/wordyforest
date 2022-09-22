@@ -62,14 +62,14 @@
         {% if translated_data is None %}
         Not Found
         {% else %}
-        {{translated_data.word}}
+        <span class="text-uppercase">{{translated_data.word}}</span>
         {% endif %}
       </p>
-      <p class="mb-1 fw-bold">TRANSLATIONS
+      <p class="mb-1 fw-bold">TRANSLATIONS:
         {% if translated_data is not None %}
         <ul>
           {% for i in translated_data.translate %}
-          <li>{{i.type}}</li>
+          <li class="text-uppercase">{{i.type}}</li>
           {% autoescape off %}
           <ul>{{i.words}}</ul>
           {% endautoescape %}
