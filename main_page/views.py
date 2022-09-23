@@ -78,7 +78,7 @@ def index(request):
         word_list = request.POST.get("word_list")
         word_id = request.POST.get("word_id")
         if button_name == "next":
-            if user_language is not None:
+            if user.is_authenticated and user_language is not None:
                 context["destination_language"] = user_language
 
             if word_list == "all_word":
