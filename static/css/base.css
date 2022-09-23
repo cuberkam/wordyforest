@@ -19,6 +19,18 @@ body {
     color: var(--dark-blue);
 }
 
+.bg-light {
+    --bs-bg-opacity: 0;
+    --bs-modal-bg: var(--primary);
+    --bs-modal-header-border-color: var(--dark-blue);
+    --bs-modal-footer-border-color: var(--dark-blue);
+    --bs-modal-border-color: var(--dark-blue);
+}
+
+.bg-dark {
+    background-color: var(--secondary);
+}
+
 .logo {
     color: var(--dark-blue);
     font-family: var(--font-rubik);
@@ -96,6 +108,11 @@ body {
 .button-red {
     color: var(--primary);
     background-color: var(--dark-red);
+}
+
+.button-green {
+    color: var(--primary);
+    background-color: var(--dark-green);
 }
 
 .button:hover {

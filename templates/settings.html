@@ -76,12 +76,40 @@
 
   <div id="delete-account">
     <h2 class="borderbottom-red mt-3 text-red">Delete Account</h2>
-    <span class="text-red"><strong>This account will be permanently deleted. Are you sure?</strong></span>
-    <form action="" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="button" value="delete_account">
-      <button type="submit" class="button button-red button-hover-light mt-3">Delete</button>
-    </form>
+    <p class="text-red"><strong>This account will be permanently deleted.</strong></p>
+    <button type="button" class="button button-red button-hover-light" data-bs-toggle="modal"
+      data-bs-target="#accountDelete">
+      Delete
+    </button>
+
+    <div class="modal fade" id="accountDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog bg-light">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Account Delete</h5>
+          </div>
+          <div class="modal-body">
+            This account will be permanently deleted. Are you sure?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="button button-blue button-hover-dark" data-bs-dismiss="modal">Close</button>
+            <form action="" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="button" value="delete_account">
+              <button type="submit" class="button button-red button-hover-dark">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>
+</div>
+</div>
+
+</div>
+</div>
+
 {% endblock %}
