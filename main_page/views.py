@@ -1,9 +1,12 @@
+import logging
 import random
 
 from django.shortcuts import render
 from googletrans import Translator
 
 from .models import Dictionary, Languages
+
+logger = logging.getLogger(__name__)
 
 
 def give_random_word(queryset):
@@ -89,6 +92,7 @@ def index(request):
 
                 word = give_random_word(queryset)
                 context["word"] = word
+                logger.info("Word: " + word.get("word"))
                 return render(request, "index.html", context)
         if button_name == "translate":
             destination_language = request.POST.get("destination_language")
@@ -104,6 +108,11 @@ def index(request):
 
             context["translated_data"] = translated_data
             context["destination_language"] = destination_language
+            logger.info(
+                "Word: {}\nLanguage: {}".format(
+                    translated_data.get("word"), destination_language
+                )
+            )
 
             return render(request, "index.html", context)
 
