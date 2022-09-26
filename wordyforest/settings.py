@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import environ
+from django.utils.log import DEFAULT_LOGGING
 
 env = environ.Env(
     # set casting, default value
@@ -170,7 +171,7 @@ LOGGING = {
     },
 }
 if DEBUG:
-    LOGGING["loggers"]["main_page"] = {
+    DEFAULT_LOGGING["loggers"]["main_page"] = {
         "handlers": ["console"],
         "level": "DEBUG",
     }

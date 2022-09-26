@@ -109,8 +109,8 @@ def index(request):
             context["translated_data"] = translated_data
             context["destination_language"] = destination_language
             logger.info(
-                "Word: {}\nLanguage: {}".format(
-                    translated_data.get("word"), destination_language
+                "Language: {}\nWord: {}".format(
+                    destination_language, translated_data.get("word")
                 )
             )
 
