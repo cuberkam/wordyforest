@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 def give_random_word(queryset):
     dictionary = queryset
     dictionary_length = dictionary.count()
-    random_dictionary_id = random.randint(2, dictionary_length)
+    random_dictionary_id = random.SystemRandom().randint(2, dictionary_length)
     word = dictionary.filter(id=random_dictionary_id).values()[0]
 
     return word
