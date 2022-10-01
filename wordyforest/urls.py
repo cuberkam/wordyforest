@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import handler404
 from django.contrib import admin
 from django.urls import include, path
+from main_page.views import clear_messages
 
 handler404 = "main_page.views.page_not_found_view"
 
@@ -24,4 +25,6 @@ urlpatterns = [
     path("", include("main_page.urls")),
     path("auth/", include("users.urls")),
     path("settings/", include("settings.urls")),
+    path("word_lists/", include("word_lists.urls")),
+    path("clear_messages/", clear_messages, name="clear_messages"),
 ]

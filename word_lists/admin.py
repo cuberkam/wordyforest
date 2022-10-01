@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from .models import WordLists
+from .models import WordsList
 
-admin.site.register(WordLists)
+admin.site.register(WordsList)

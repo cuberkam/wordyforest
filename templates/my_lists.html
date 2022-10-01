@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}My Lists{% endblock %}
+{% block content %}
+<div class="row justify-content-md-center">
+  <div class="col-11 box p-4">
+
+    <div id="create-list">
+      <form class="mb-3" action="" method="post">
+        {% csrf_token %}
+        <input placeholder="Type Your New List Name" class="form-control" name="list_name"
+          style="width: unset; display: unset;">
+        <input type="hidden" name="button" value="create_list">
+        <button type="submit" class="button button-blue button-hover-light">CREATE</button>
+      </form>
+    </div>
+
+    <div id="my-lists">
+      {% include 'partials/words_list_list.html' %}
+    </div>
+  </div>
+  {% endblock %}

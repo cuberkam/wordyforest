@@ -1,0 +1,23 @@
+{% if messages %}
+<div hx-get="{% url 'clear_messages' %}" hx-trigger="load delay:2s">
+  {% include 'partials/messages.html' %}
+</div>
+{% endif %}
+
+{% for word in list_of_words %}
+<div class="row wire-frame p-2 mx-0 mt-3">
+
+  <div class="col">
+    <span id="word" class="mt-2 fw-bold">{{word.word}} (<span class="text-muted">{{word.type}}</span>)</span> <br>
+    <span>{{word.description}}</span>
+  </div>
+
+  <div class="col p-0">
+    <div class="float-end">
+      <button class="button button-red button-hover-dark" hx-delete="{% url 'delete_word' words_list.pk word.pk %}"
+        hx-target="#list-of-words">REMOVE</button>
+    </div>
+  </div>
+
+</div>
+{% endfor %}

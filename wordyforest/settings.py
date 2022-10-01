@@ -129,3 +129,5 @@ if DEBUG:
         "handlers": ["console"],
         "level": "DEBUG",
     }
+
+LOGIN_URL = "users.views.login_user"

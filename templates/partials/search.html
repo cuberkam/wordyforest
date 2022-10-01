@@ -1,0 +1,7 @@
+<div>
+  <input class="form-control me-2" name="search" placeholder="Search" hx-post="{% url 'search_words' %}"
+    hx-target='#search-results' hx-trigger="keyup changed delay:500ms"
+    hx-vals='js:{"words_list_id":"{{words_list.id}}"}'>
+
+  <div id="search-results"></div>
+</div>

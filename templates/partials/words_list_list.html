@@ -1,0 +1,12 @@
+<h2 class="borderbottom-blue">My Lists</h2>
+{% for list in user_word_list %}
+<div class="row wire-frame p-2 mx-0 mb-2">
+  <span id="word" class="col mt-2 fw-bold">{{list.name}}</span>
+
+  <a href="{% url 'words_list_details' pk=list.id %}" class="button button-blue button-hover-dark"
+    style="text-decoration: none;">EDIT</a>
+
+  <button class="button button-red button-hover-dark ms-2" hx-delete="{% url 'delete_list' list.pk %}"
+    hx-target="#my-lists">DELETE</button>
+</div>
+{% endfor %}

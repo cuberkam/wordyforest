@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}My Lists{% endblock %}
+{% block content %}
+<div class="row justify-content-md-center">
+  <div class="col-8 box p-4">
+
+    <div id="list-name">
+      {% include 'partials/list_name.html' %}
+    </div>
+
+    {% if request.user.is_superuser %}
+    <div>
+      <input type="checkbox" hx-post="{% url 'toggle_words_list_status' words_list.pk %}" hx-trigger="click"
+        hx-vals='js:{"private":"{{words_list.is_private}}"}' {% if words_list.is_private %} checked {% endif %}>
+      <label for="private"> Private</label><br>
+    </div>
+    {% endif %}
+
+    <hr>
+
+    <div id="list-of-words">
+      {% include 'partials/list_of_words.html' %}
+    </div>
+
+  </div>
+
+  <div class="col-3 box p-2 mx-1">
+    {% include 'partials/search.html' %}
+  </div>
+
+</div>
+{% endblock %}

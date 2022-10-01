@@ -1,0 +1,9 @@
+{% for word in results %}
+<div class="wire-frame p-2 mx-0 mt-2">
+  <span id="word" class="mt-2 fw-bold">{{word.word}} (<span class="text-muted">{{word.type}}</span>)</span> <br>
+  <span>{{word.description}}</span> <br>
+
+  <button class="button button-green button-hover-dark" hx-post="{% url 'add_words' words_list_id word.id %}"
+    hx-target="#list-of-words">ADD</button>
+</div>
+{% endfor %}
