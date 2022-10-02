@@ -2,7 +2,7 @@
 {% block title %}My Lists{% endblock %}
 {% block content %}
 <div class="row justify-content-md-center">
-  <div class="col-8 box p-4">
+  <div class="col-md-7 box p-4">
 
     <div id="list-name">
       {% include 'partials/list_name.html' %}
@@ -18,13 +18,13 @@
 
     <hr>
 
-    <div id="list-of-words">
+    <div id="list-of-words" class="pe-1" style="overflow-y: scroll; height:70vh;">
       {% include 'partials/list_of_words.html' %}
     </div>
 
   </div>
 
-  <div class="col-3 box p-2 mx-1">
+  <div class="col-md-3 box p-2 mx-1">
     {% include 'partials/search.html' %}
   </div>
 

@@ -369,8 +369,12 @@ input[type="file"] {
     width: 1em;
 }
 
-::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
     background-color: var(--secondary);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--primary);
 }
 
 ::-webkit-scrollbar-thumb {
