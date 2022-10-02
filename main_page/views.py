@@ -128,7 +128,11 @@ def index(request):
                     )
                 )
             except Exception:
-                word = ""
+                logger.info(
+                    "Language: {}\nWord: {}".format(
+                        destination_language, translated_data
+                    )
+                )
             context["word"] = word
 
             context["destination_language"] = destination_language
