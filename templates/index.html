@@ -1,19 +1,34 @@
 {% extends 'base.html' %}
 {% block title %} Main Page {% endblock %}
 {% block content %}
-
-
 <div class="row" style="padding-right: 1rem;">
   <div class="col">
     <div class="dropdown mb-2 cylist-sm">
-      <button class="dropdown-toggle btn-dropdown button-hover-dark" type="button" data-bs-toggle="dropdown"
-        aria-expanded="true">
-        CHOOSE YOUR LIST
+      <label for="#choose-list"> CHOOSE WORDS LIST: </label>
+      <button id="choose-list" class="dropdown-toggle btn-dropdown button-hover-dark" type="button"
+        data-bs-toggle="dropdown" aria-expanded="true">
+        {% if selected_words_list_name in "default_words_list" %}
+        Default Word List
+        {% else %}
+        {{selected_words_list_name}}
+        {% endif %}
       </button>
       <ul id="choose-list" class="dropdown-menu">
-        <li class="dropdown-item">List 1</li>
-        <li class="dropdown-item">List 2</li>
-        <li class="dropdown-item">List 3</li>
+        {% for words_list in list_of_words_list %}
+        <form id="choose-list" action="{% url 'index' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" class="dropdown-item" name="button" value="choose_words_list">
+          <input type="hidden" class="dropdown-item" name="words_list_id" value="{{words_list.pk}}">
+          <input type="hidden" class="dropdown-item" name="words_list_name" value="{{words_list.name}}">
+          <button class="dropdown-item">
+            {% if words_list.name in "default_words_list" %}
+            Default Word List
+            {% else %}
+            {{words_list.name}}
+            {% endif %}
+          </button>
+        </form>
+        {% endfor %}
       </ul>
     </div>
   </div>
@@ -22,7 +37,8 @@
       <form id="next-form" class="col" action="{% url 'index' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="button" value="next">
-        <input type="hidden" name="word_list" value="{{word_list}}" />
+        <input type="hidden" name="selected_words_list_name" value="{{selected_words_list_name}}" />
+        <input type="hidden" name="selected_words_list_id" value="{{selected_words_list_id}}" />
         <input type="hidden" name="word_id" value="{{word.id}}" />
         <button class="button button-hover-dark button-blue mb-sm-1 generate-sm" style="outline: none">
           NEXT
@@ -32,7 +48,7 @@
   </div>
 </div>
 
-<div class="row box mx-1">
+<div class="row box mx-1" style="margin-bottom: .5rem;">
   <div class="col p-3">
     <p class="mb-1 fw-bold">WORD</p>
     <p class="wire-frame p-3">
@@ -100,7 +116,8 @@
       <div class="float-end">
         {% csrf_token %}
         <input type="hidden" name="button" value="translate">
-        <input type="hidden" name="word_list" value="{{word_list}}" />
+        <input type="hidden" name="selected_words_list_name" value="{{selected_words_list_name}}" />
+        <input type="hidden" name="selected_words_list_id" value="{{selected_words_list_id}}" />
         <input type="hidden" name="word_id" value="{{word.id}}" />
         <button class="button button-hover-dark button-blue" style="outline: none; height: auto">
           TRANSLATE
