@@ -8,7 +8,7 @@
       <button id="choose-list" class="dropdown-toggle btn-dropdown button-hover-dark" type="button"
         data-bs-toggle="dropdown" aria-expanded="true">
         {% if selected_words_list_name in "default_words_list" %}
-        Default Word List
+        Default Words List
         {% else %}
         {{selected_words_list_name}}
         {% endif %}
@@ -22,7 +22,7 @@
           <input type="hidden" class="dropdown-item" name="words_list_name" value="{{words_list.name}}">
           <button class="dropdown-item">
             {% if words_list.name in "default_words_list" %}
-            Default Word List
+            Default Words List
             {% else %}
             {{words_list.name}}
             {% endif %}

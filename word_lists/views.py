@@ -96,7 +96,7 @@ def search_words(request):
 
     results = Dictionary.objects.filter(word__icontains=search_text).exclude(
         pk__in=user_words_list_words
-    )[:10]
+    )
 
     context = {
         "results": results,
