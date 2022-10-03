@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -7,7 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 from main_page.models import Dictionary
 
-from .models import WordsList
+from .models import SubscribedList, WordsList
 
 
 @login_required
@@ -28,12 +30,19 @@ def my_lists(request):
             except IntegrityError:
                 messages.error(request, "This list name already exist.")
 
-    context = {"user_word_list": user_word_list}
+    context = {
+        "user_word_list": user_word_list,
+        "user_subscribed_lists": user_subscribed_lists(request),
+    }
     return render(request, "my_lists.html", context)
 
 
 @login_required
 def words_list_details(request, pk):
+    return render(request, "words_list_details.html", words_list_with_list_of_words(pk))
+
+
+def words_list_with_list_of_words(pk):
     words_list = WordsList.objects.filter(pk=pk)
     list_of_words = Dictionary.objects.filter(pk__in=words_list.get().words)
 
@@ -41,7 +50,7 @@ def words_list_details(request, pk):
         "words_list": words_list.get(),
         "list_of_words": list_of_words,
     }
-    return render(request, "words_list_details.html", context)
+    return context
 
 
 @login_required
@@ -156,3 +165,63 @@ def toggle_words_list_status(request, pk):
     else:
         WordsList.objects.filter(pk=pk, user=request.user).update(is_private=True)
     return HttpResponse("")
+
+
+@login_required
+def subscribe_list(request):
+    post_data = QueryDict(request.body).dict()
+    share_code = post_data["share_code"].split()[0]
+
+    try:
+        uuid.UUID(share_code)
+    except ValueError:
+        messages.error(request, "This is an invalid key.")
+        return render(request, "partials/subscribed_lists_list.html")
+
+    words_list_queryset = WordsList.objects.filter(share_id=share_code, is_private=True)
+
+    if words_list_queryset.filter(user=request.user):
+        messages.error(request, "You are unable to subscribe to your lists.")
+
+    if not words_list_queryset.exists():
+        messages.error(request, "Such a list does not exist.")
+        return render(request, "partials/subscribed_lists_list.html")
+    for item in words_list_queryset:
+        words_list = item
+
+    try:
+        SubscribedList.objects.create(user=request.user, words_list=words_list)
+    except IntegrityError:
+        messages.error(request, "You cannot resubscribe to the list you subscribed to.")
+
+    context = {"user_subscribed_lists": user_subscribed_lists(request)}
+    return render(request, "partials/subscribed_lists_list.html", context)
+
+
+@login_required
+def user_subscribed_lists(request):
+    subscribed_list_ids = SubscribedList.objects.filter(user=request.user).values_list(
+        "words_list_id", flat=True
+    )
+    return WordsList.objects.filter(pk__in=subscribed_list_ids)
+
+
+@login_required
+def unsubscrib_list(request, pk):
+    subscribed_list = SubscribedList.objects.filter(user=request.user, words_list_id=pk)
+
+    if subscribed_list.exists():
+        subscribed_list.delete()
+        messages.success(request, "You has been successfully unsubscribe.")
+
+    context = {"user_subscribed_lists": user_subscribed_lists(request)}
+    return render(request, "partials/subscribed_lists_list.html", context)
+
+
+@login_required
+def subscribed_list_details(request, pk):
+    return render(
+        request,
+        "subscribed_list_details.html",
+        words_list_with_list_of_words(pk),
+    )

@@ -1,18 +1,25 @@
 {% for list in user_word_list %}
 <div class="row wire-frame p-2 mx-0 mb-2">
-  <span id="word" class="col mt-2 fw-bold">{{ list.name }}</span>
-
+  <div class="col">
+    {% if list.is_private %}
+    <span class="mt-2 fw-bold">{{ list.name }}</span>
+    <br>
+    <span class="mt-2">Share Your List: <strong>{{ list.share_id }}</strong></span>
+    {% else %}
+    <span class="d-flex align-items-center mt-2 fw-bold">{{ list.name }}</span>
+    {% endif %}
+  </div>
   <a href="{% url 'words_list_details' pk=list.id %}" class="button button-blue button-hover-dark"
     style="text-decoration: none;">EDIT</a>
 
   {% if list.is_private %}
   <button type="button" class="button button-red button-hover-dark ms-2" data-bs-toggle="modal"
-    data-bs-target="#Delete{{list.name}}List">
+    data-bs-target="#Delete{{ list.name }}List">
     DELETE
   </button>
   {% endif %}
 
-  <div class="modal fade" id="Delete{{list.name}}List" tabindex="-1" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="Delete{{ list.name }}List" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog bg-light">
       <div class="modal-content">
@@ -23,13 +30,12 @@
           This list will be permanently deleted. Are you sure?
         </div>
         <div class="modal-footer">
-          <button type="button" class="button button-blue button-hover-dark" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="button button-blue button-hover-dark" data-bs-dismiss="modal">CLOSE</button>
           <button class="button button-red button-hover-dark ms-2" hx-delete="{% url 'delete_list' list.pk %}"
-            hx-target="#my-lists" data-bs-toggle="modal" data-bs-target="#Delete{{list.name}}List">DELETE</button>
+            hx-target="#my-lists" data-bs-toggle="modal" data-bs-target="#Delete{{ list.name }}List">DELETE</button>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 {% endfor %}

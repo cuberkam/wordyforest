@@ -1,0 +1,40 @@
+{% if messages %}
+<div hx-get="{% url 'clear_messages' %}" hx-trigger="load delay:3s">
+  {% include 'partials/messages.html' %}
+</div>
+{% endif %}
+
+{% for list in user_subscribed_lists %}
+<div class="row wire-frame p-2 mx-0 mb-2">
+  <span id="word" class="col mt-2 fw-bold">{{ list.name }}</span>
+
+  <a href="{% url 'subscribed_list_details' pk=list.id %}" class="button button-blue button-hover-dark"
+    style="text-decoration: none;">DETAILS</a>
+
+  <button type="button" class="button button-red button-hover-dark ms-2" data-bs-toggle="modal"
+    data-bs-target="#Unsubscrib{{ list.name }}List">
+    UNSUBSCRIB
+  </button>
+
+  <div class="modal fade" id="Unsubscrib{{ list.name }}List" tabindex="-1" aria-labelledby="UnsubscribModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog bg-light">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="UnsubscribModalLabel">Unsubscrib {{ list.name }} List</h5>
+        </div>
+        <div class="modal-body">
+          Unsubscrib. Are you sure?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="button button-blue button-hover-dark" data-bs-dismiss="modal">CLOSE</button>
+          <button class="button button-red button-hover-dark ms-2" hx-delete="{% url 'unsubscrib_list' list.pk %}"
+            hx-target="#subscribed-lists" data-bs-toggle="modal"
+            data-bs-target="#Unsubscrib{{list.name}}List">UNSUBSCRIB</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endfor %}

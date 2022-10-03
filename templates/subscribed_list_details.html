@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}{{ words_list.name }}{% endblock %}
+{% block content %}
+<div class="row justify-content-md-center">
+  <div class="col-md-7 box p-4">
+
+    <div id="list-name">
+      {{ words_list.name }}
+    </div>
+
+    <hr>
+
+    <div class="pe-1" style="overflow-y: scroll; height:70vh;">
+      {% for word in list_of_words %}
+      <div class="wire-frame p-2 mx-0 mt-3">
+
+        <div>
+          <span id="word" class="mt-2 fw-bold">{{word.word}} (<span class="text-muted">{{word.type}}</span>)</span> <br>
+          <span>{{word.description}}</span>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

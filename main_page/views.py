@@ -5,6 +5,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from googletrans import Translator
 from word_lists.models import WordsList
+from word_lists.views import user_subscribed_lists
 
 from .models import Dictionary, Languages
 
@@ -163,7 +164,8 @@ def list_of_words_list(request):
 
     if request.user.is_authenticated:
         user_words_list = WordsList.objects.filter(user=request.user)
-        all_words_list = all_words_list | user_words_list
+        user_subscribed_list = user_subscribed_lists(request)
+        all_words_list = all_words_list | user_words_list | user_subscribed_list
 
     return all_words_list
 

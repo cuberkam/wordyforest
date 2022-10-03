@@ -39,6 +39,21 @@ htmx_urlpatterns = [
         views.toggle_words_list_status,
         name="toggle_words_list_status",
     ),
+    path(
+        "subscribe_list/",
+        views.subscribe_list,
+        name="subscribe_list",
+    ),
+    path(
+        "subscribe_list/<pk>/",
+        views.subscribed_list_details,
+        name="subscribed_list_details",
+    ),
+    path(
+        "unsubscrib_list/<pk>/",
+        views.unsubscrib_list,
+        name="unsubscrib_list",
+    ),
 ]
 
 urlpatterns += htmx_urlpatterns

@@ -13,9 +13,28 @@
         <button type="submit" class="button button-blue button-hover-light">CREATE</button>
       </form>
     </div>
-    <h2 class="borderbottom-blue">My Lists</h2>
-    <div id="my-lists">
-      {% include 'partials/words_list_list.html' %}
-    </div>
+
+    <section>
+      <h2 class="borderbottom-blue">My Lists</h2>
+      <div id="my-lists">
+        {% include 'partials/words_list_list.html' %}
+      </div>
+    </section>
+
+    <section>
+      <h2 class="borderbottom-blue">Subscribed Lists</h2>
+      <form hx-put="{% url 'subscribe_list' %}" hx-target="#subscribed-lists">
+        <input type="text" class="form-control" placeholder="Type Share Code" name="share_code"
+          style="width: unset; display: unset;">
+        <button id="subscribe" class="button button-hover-light button-blue" type="submit">
+          SUBSCRIBE
+        </button>
+      </form>
+      <hr>
+      <div id="subscribed-lists">
+        {% include 'partials/subscribed_lists_list.html' %}
+      </div>
+    </section>
+
   </div>
   {% endblock %}
