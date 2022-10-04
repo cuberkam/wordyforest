@@ -147,6 +147,11 @@ def delete_list(request, pk):
     words_list = WordsList.objects.filter(pk=pk, user=request.user)
 
     if words_list.exists():
+        sub_list = SubscribedList.objects.filter(words_list_id=pk).all()
+        if sub_list.exists():
+            for item in sub_list:
+                item.delete()
+
         words_list.delete()
 
         user_words_list = WordsList.objects.filter(user=request.user)
@@ -207,7 +212,7 @@ def user_subscribed_lists(request):
 
 
 @login_required
-def unsubscrib_list(request, pk):
+def unsubscribe_list(request, pk):
     subscribed_list = SubscribedList.objects.filter(user=request.user, words_list_id=pk)
 
     if subscribed_list.exists():

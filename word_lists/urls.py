@@ -50,9 +50,9 @@ htmx_urlpatterns = [
         name="subscribed_list_details",
     ),
     path(
-        "unsubscrib_list/<pk>/",
-        views.unsubscrib_list,
-        name="unsubscrib_list",
+        "unsubscribe_list/<pk>/",
+        views.unsubscribe_list,
+        name="unsubscribe_list",
     ),
 ]
 

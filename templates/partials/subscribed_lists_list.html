@@ -12,25 +12,25 @@
     style="text-decoration: none;">DETAILS</a>
 
   <button type="button" class="button button-red button-hover-dark ms-2" data-bs-toggle="modal"
-    data-bs-target="#Unsubscrib{{ list.name }}List">
+    data-bs-target="#Unsubscribe{{ list.name }}List">
     UNSUBSCRIBE
   </button>
 
-  <div class="modal fade" id="Unsubscrib{{ list.name }}List" tabindex="-1" aria-labelledby="UnsubscribModalLabel"
+  <div class="modal fade" id="Unsubscribe{{ list.name }}List" tabindex="-1" aria-labelledby="UnsubscribeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog bg-light">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="UnsubscribModalLabel">Unsubscrib {{ list.name }} List</h5>
+          <h5 class="modal-title" id="UnsubscribeModalLabel">Unsubscribe {{ list.name }} List</h5>
         </div>
         <div class="modal-body">
-          Unsubscrib. Are you sure?
+          Unsubscribe. Are you sure?
         </div>
         <div class="modal-footer">
           <button type="button" class="button button-blue button-hover-dark" data-bs-dismiss="modal">CLOSE</button>
-          <button class="button button-red button-hover-dark ms-2" hx-delete="{% url 'unsubscrib_list' list.pk %}"
+          <button class="button button-red button-hover-dark ms-2" hx-delete="{% url 'unsubscribe_list' list.pk %}"
             hx-target="#subscribed-lists" data-bs-toggle="modal"
-            data-bs-target="#Unsubscrib{{list.name}}List">UNSUBSCRIB</button>
+            data-bs-target="#Unsubscribe{{list.name}}List">UNSUBSCRIBE</button>
         </div>
       </div>
     </div>
