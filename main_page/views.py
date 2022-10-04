@@ -1,6 +1,7 @@
 import logging
 import random
 
+from django.contrib import messages
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from googletrans import Translator
@@ -103,6 +104,10 @@ def index(request):
 
             else:
                 words_list = WordsList.objects.filter(pk=selected_words_list_id)[0]
+                if words_list.words == []:
+                    messages.error(request, f"{words_list.name} words list is empty")
+                    logger.error(f"{words_list.name} words list is empty")
+                    return render(request, "index.html", context)
                 word = give_random_word_from_words_list(words_list.words)
 
             context["word"] = word
