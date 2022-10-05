@@ -8,7 +8,7 @@ from googletrans import Translator
 from word_lists.models import WordsList
 from word_lists.views import user_subscribed_lists
 
-from .models import Dictionary, Languages
+from .models import Dictionary, Languages, Synonyms
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +63,10 @@ def replace_translate_result(word, dest):
         return None
 
 
+def word_synonyms(dictionary_id):
+    return Synonyms.objects.filter(dictionary_id=dictionary_id).all()
+
+
 def index(request):
     languages = Languages.objects.all()
     context = {
@@ -105,25 +109,32 @@ def index(request):
             else:
                 words_list = WordsList.objects.filter(pk=selected_words_list_id)[0]
                 if words_list.words == []:
+                    context["languages"] = None
                     messages.error(request, f"{words_list.name} words list is empty")
                     logger.error(f"{words_list.name} words list is empty")
                     return render(request, "index.html", context)
                 word = give_random_word_from_words_list(words_list.words)
 
             context["word"] = word
+            context["synonyms"] = word_synonyms(word["id"])
             logger.info("Word: " + word.get("word"))
             return render(request, "index.html", context)
 
         if button_name == "translate":
             destination_language = request.POST.get("destination_language")
             translated_data = None
+            if word_id == "":
+                context["languages"] = None
+
             try:
                 word = Dictionary.objects.get(id=word_id)
+                context["word"] = word
 
                 translated_data = replace_translate_result(
                     word.word, destination_language
                 )
                 context["translated_data"] = translated_data
+                context["synonyms"] = word_synonyms(word.id)
 
                 if destination_language is None:
                     return render(request, "index.html", context)
@@ -139,7 +150,6 @@ def index(request):
                         destination_language, translated_data
                     )
                 )
-            context["word"] = word
 
             context["destination_language"] = destination_language
 

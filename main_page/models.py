@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -28,3 +29,9 @@ class Languages(models.Model):
 
     def __str__(self) -> str:
         return f"{self.code} : {self.eng_name}"
+
+
+class Synonyms(models.Model):
+    dictionary = models.ForeignKey(Dictionary, models.CASCADE)
+    type = models.CharField(max_length=1000, null=True)
+    words = ArrayField(models.CharField(max_length=10000), default=list, null=True)

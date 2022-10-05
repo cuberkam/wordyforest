@@ -62,13 +62,27 @@
       <span id="description" class="upper-fl">{{ word.description }}</span>
     </div>
     <p class="mb-1 fw-bold">EXAMPLE</p>
-    <div class="wire-frame p-3">
+    <div class="wire-frame p-3 mb-3">
       {% if word.example == None %}
       <span id="example"> </span>
       {% else %}
       <span id="example" class="upper-fl">{{ word.example }}</span>
       {% endif %}
     </div>
+    <p class="mb-1 fw-bold">SYNONYMS</p>
+    {% if synonyms %}
+    {% for i in synonyms %}
+    <div class="wire-frame p-2 mb-1">
+      {% for word in i.words %}
+      <span class="badge m-1 badge-primary">{{word}}</span>
+      {% endfor %} <br>
+      <!-- <hr style="margin-top: .5rem; margin-bottom: .5rem;"> -->
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="wire-frame p-2">
+    </div>
+    {% endif %}
   </div>
   <div class="col p-3">
     <p class="mb-1 fw-bold">TRANSLATION</p>
