@@ -13,7 +13,7 @@ class WordsList(models.Model):
     share_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["created_date"]
         verbose_name = "words_list"
         verbose_name_plural = "words_lists"
         unique_together = ["name", "user"]
