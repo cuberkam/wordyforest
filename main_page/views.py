@@ -4,6 +4,7 @@ import random
 from django.contrib import messages
 from django.http.response import HttpResponse
 from django.shortcuts import render
+from django.views import View
 from googletrans import Translator
 from word_lists.models import WordsList
 from word_lists.views import user_subscribed_lists
@@ -67,31 +68,100 @@ def word_synonyms(dictionary_id):
     return Synonyms.objects.filter(dictionary_id=dictionary_id).all()
 
 
-def index(request):
+def next_word(request):
     languages = Languages.objects.all()
-    context = {
-        "selected_words_list_name": "default_words_list",
-        "list_of_words_list": list_of_words_list(request),
-        "translated_data": "",
-    }
+    context = {"languages": languages}
     user = request.user
+
     if user.is_authenticated:
         user_language = user.language
+        context["destination_language"] = user_language
 
-    if request.method == "POST":
-        context["languages"] = languages
+    selected_words_list_id = request.POST.get("selected_words_list_id")
+    context["selected_words_list_id"] = selected_words_list_id
+
+    selected_words_list_name = request.POST.get("selected_words_list_name")
+    context["selected_words_list_name"] = selected_words_list_name
+
+    if selected_words_list_name == "default_words_list":
+        word = give_random_word_from_words_list()
+
+    else:
+        words_list = WordsList.objects.filter(pk=selected_words_list_id)[0]
+        if words_list.words == []:
+            context["languages"] = None
+            context["destination_language"] = None
+            messages.error(request, f"{words_list.name} words list is empty")
+            logger.error(f"{words_list.name} words list is empty")
+            return render(request, "partials/word_and_translate.html", context)
+        word = give_random_word_from_words_list(words_list.words)
+
+    context["word"] = word
+    context["synonyms"] = word_synonyms(word["id"])
+    logger.info("Word: " + word.get("word"))
+    return render(request, "partials/word_and_translate.html", context)
+
+
+def translate_word(request):
+    languages = Languages.objects.all()
+    context = {"languages": languages}
+
+    selected_words_list_name = request.POST.get("selected_words_list_name")
+    context["selected_words_list_name"] = selected_words_list_name
+
+    selected_words_list_id = request.POST.get("selected_words_list_id")
+    context["selected_words_list_id"] = selected_words_list_id
+
+    word_id = request.POST.get("word_id")
+    destination_language = request.POST.get("destination_language")
+    translated_data = None
+
+    if word_id == "":
+        context["languages"] = None
+
+    try:
+        word = Dictionary.objects.get(id=word_id)
+        context["word"] = word
+
+        translated_data = replace_translate_result(word.word, destination_language)
+        context["translated_data"] = translated_data
+        context["synonyms"] = word_synonyms(word.id)
+
+        if destination_language is None:
+            return render(request, "partials/word_and_translate.html", context)
+
+        logger.info(
+            "Language: {}\nWord: {}".format(
+                destination_language, translated_data.get("word")
+            )
+        )
+    except Exception:
+        messages.error(request, "Not Found")
+        logger.info(
+            "Language: {}\nWord: {}".format(destination_language, translated_data)
+        )
+
+    context["destination_language"] = destination_language
+
+    return render(request, "partials/word_and_translate.html", context)
+
+
+class Index(View):
+    def get(self, request):
+        context = {
+            "selected_words_list_name": "default_words_list",
+            "list_of_words_list": list_of_words_list(request),
+        }
+
+        return render(request, "index.html", context)
+
+    def post(self, request):
+        context = {
+            "list_of_words_list": list_of_words_list(request),
+        }
         button_name = request.POST.get("button")
 
-        selected_words_list_name = request.POST.get("selected_words_list_name")
-        context["selected_words_list_name"] = selected_words_list_name
-
-        selected_words_list_id = request.POST.get("selected_words_list_id")
-        context["selected_words_list_id"] = selected_words_list_id
-
-        word_id = request.POST.get("word_id")
-
         if button_name == "choose_words_list":
-            context["languages"] = None
 
             words_list_id = request.POST.get("words_list_id")
             context["selected_words_list_id"] = words_list_id
@@ -99,63 +169,7 @@ def index(request):
             words_list_name = request.POST.get("words_list_name")
             context["selected_words_list_name"] = words_list_name
 
-        if button_name == "next":
-            if user.is_authenticated and user_language is not None:
-                context["destination_language"] = user_language
-
-            if selected_words_list_name == "default_words_list":
-                word = give_random_word_from_words_list()
-
-            else:
-                words_list = WordsList.objects.filter(pk=selected_words_list_id)[0]
-                if words_list.words == []:
-                    context["languages"] = None
-                    messages.error(request, f"{words_list.name} words list is empty")
-                    logger.error(f"{words_list.name} words list is empty")
-                    return render(request, "index.html", context)
-                word = give_random_word_from_words_list(words_list.words)
-
-            context["word"] = word
-            context["synonyms"] = word_synonyms(word["id"])
-            logger.info("Word: " + word.get("word"))
-            return render(request, "index.html", context)
-
-        if button_name == "translate":
-            destination_language = request.POST.get("destination_language")
-            translated_data = None
-            if word_id == "":
-                context["languages"] = None
-
-            try:
-                word = Dictionary.objects.get(id=word_id)
-                context["word"] = word
-
-                translated_data = replace_translate_result(
-                    word.word, destination_language
-                )
-                context["translated_data"] = translated_data
-                context["synonyms"] = word_synonyms(word.id)
-
-                if destination_language is None:
-                    return render(request, "index.html", context)
-
-                logger.info(
-                    "Language: {}\nWord: {}".format(
-                        destination_language, translated_data.get("word")
-                    )
-                )
-            except Exception:
-                logger.info(
-                    "Language: {}\nWord: {}".format(
-                        destination_language, translated_data
-                    )
-                )
-
-            context["destination_language"] = destination_language
-
-            return render(request, "index.html", context)
-
-    return render(request, "index.html", context)
+        return render(request, "index.html", context)
 
 
 def give_random_word_from_words_list(ids_list=None):
