@@ -1,11 +1,11 @@
 import logging
 import random
 
-from django.contrib import messages
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from googletrans import Translator
+from utils.messages import HtmxMessage
 from word_lists.models import WordsList
 from word_lists.views import user_subscribed_lists
 
@@ -91,9 +91,15 @@ def next_word(request):
         if words_list.words == []:
             context["languages"] = None
             context["destination_language"] = None
-            messages.error(request, f"{words_list.name} words list is empty")
-            logger.error(f"{words_list.name} words list is empty")
-            return render(request, "partials/word_and_translate.html", context)
+
+            message = f"{words_list.name} words list is empty"
+            logger.error(message)
+
+            response = render(request, "partials/word_and_translate.html", context)
+
+            response[HtmxMessage.HEADER] = HtmxMessage.error(message=message)
+
+            return response
         word = give_random_word_from_words_list(words_list.words)
 
     context["word"] = word
@@ -105,6 +111,7 @@ def next_word(request):
 def translate_word(request):
     languages = Languages.objects.all()
     context = {"languages": languages}
+    htmx_message = None
 
     selected_words_list_name = request.POST.get("selected_words_list_name")
     context["selected_words_list_name"] = selected_words_list_name
@@ -136,14 +143,16 @@ def translate_word(request):
             )
         )
     except Exception:
-        messages.error(request, "Not Found")
+        htmx_message = HtmxMessage.error(message="Not Found")
         logger.info(
             "Language: {}\nWord: {}".format(destination_language, translated_data)
         )
 
     context["destination_language"] = destination_language
 
-    return render(request, "partials/word_and_translate.html", context)
+    response = render(request, "partials/word_and_translate.html", context)
+    response[HtmxMessage.HEADER] = htmx_message
+    return response
 
 
 class Index(View):

@@ -6,7 +6,6 @@ from main_page.models import Languages
 from .forms import ChangeEmailForm, ChangePasswordForm
 
 
-# Create your views here.
 def setting_view(request):
     change_email_form = ChangeEmailForm(request.POST or None)
     change_password_form = ChangePasswordForm(request.POST or None)

@@ -8,6 +8,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 from main_page.models import Dictionary
+from utils.messages import HtmxMessage
 
 from .models import SubscribedList, WordsList
 
@@ -55,14 +56,22 @@ def words_list_with_list_of_words(pk):
 
 @login_required
 def change_list_name(request, pk):
+    htmx_message = None
+
     if request.method == "PUT":
         put_data = QueryDict(request.body).dict()
-        WordsList.objects.filter(pk=pk).update(name=put_data["new_list_name"])
+        try:
+            WordsList.objects.filter(pk=pk).update(name=put_data["new_list_name"])
+        except IntegrityError:
+            htmx_message = HtmxMessage.error(message="This list name already exist.")
 
     words_list = get_object_or_404(WordsList, pk=pk)
 
     context = {"words_list": words_list}
-    return render(request, "partials/list_name.html", context)
+
+    response = render(request, "partials/list_name.html", context)
+    response[HtmxMessage.HEADER] = htmx_message
+    return response
 
 
 @login_required
@@ -117,6 +126,7 @@ def search_words(request):
 @login_required
 def add_words(request, pk, word_pk):
     list_of_words_in_words_list = []
+    htmx_message = None
 
     words_list = WordsList.objects.filter(pk=pk)
     word = Dictionary.objects.filter(pk=word_pk)
@@ -125,12 +135,14 @@ def add_words(request, pk, word_pk):
         list_of_words_in_words_list = words_list.get().words
 
         if int(word_pk) in list_of_words_in_words_list:
-            messages.error(request, "The word has already been added to the list.")
+            htmx_message = HtmxMessage.error(
+                message="The word has already been added to the list."
+            )
         else:
             list_of_words_in_words_list.append(int(word_pk))
             words_list.update(words=list_of_words_in_words_list)
-            messages.success(
-                request, "The word has been successfully added to the list."
+            htmx_message = HtmxMessage.success(
+                message="The word has been successfully added to the list."
             )
 
     list_of_words = Dictionary.objects.filter(pk__in=list_of_words_in_words_list).all()
@@ -138,7 +150,10 @@ def add_words(request, pk, word_pk):
         "words_list": words_list.get(),
         "list_of_words": list_of_words,
     }
-    return render(request, "partials/list_of_words.html", context)
+
+    response = render(request, "partials/list_of_words.html", context)
+    response[HtmxMessage.HEADER] = htmx_message
+    return response
 
 
 @login_required
@@ -176,31 +191,48 @@ def toggle_words_list_status(request, pk):
 def subscribe_list(request):
     post_data = QueryDict(request.body).dict()
     share_code = post_data["share_code"].split()[0]
+    htmx_message = None
+    context = {"user_subscribed_lists": user_subscribed_lists(request)}
 
     try:
         uuid.UUID(share_code)
     except ValueError:
-        messages.error(request, "This is an invalid key.")
-        return render(request, "partials/subscribed_lists_list.html")
+        htmx_message = HtmxMessage.error(message="This is an invalid key.")
+        response = render(request, "partials/subscribed_lists_list.html", context)
+        response[HtmxMessage.HEADER] = htmx_message
+        return response
 
     words_list_queryset = WordsList.objects.filter(share_id=share_code, is_private=True)
 
     if words_list_queryset.filter(user=request.user):
-        messages.error(request, "You are unable to subscribe to your lists.")
+        htmx_message = HtmxMessage.error(
+            message="You are unable to subscribe to your lists."
+        )
+        response = render(request, "partials/subscribed_lists_list.html", context)
+        response[HtmxMessage.HEADER] = htmx_message
+        return response
 
     if not words_list_queryset.exists():
-        messages.error(request, "Such a list does not exist.")
-        return render(request, "partials/subscribed_lists_list.html")
+        htmx_message = HtmxMessage.error(message="Such a list does not exist.")
+        response = render(request, "partials/subscribed_lists_list.html", context)
+        response[HtmxMessage.HEADER] = htmx_message
+        return response
+
     for item in words_list_queryset:
         words_list = item
 
     try:
         SubscribedList.objects.create(user=request.user, words_list=words_list)
     except IntegrityError:
-        messages.error(request, "You cannot resubscribe to the list you subscribed to.")
+        htmx_message = HtmxMessage.error(
+            message="You cannot resubscribe to the list you subscribed to."
+        )
 
     context = {"user_subscribed_lists": user_subscribed_lists(request)}
-    return render(request, "partials/subscribed_lists_list.html", context)
+
+    response = render(request, "partials/subscribed_lists_list.html", context)
+    response[HtmxMessage.HEADER] = htmx_message
+    return response
 
 
 @login_required
@@ -213,14 +245,20 @@ def user_subscribed_lists(request):
 
 @login_required
 def unsubscribe_list(request, pk):
+    htmx_message = None
     subscribed_list = SubscribedList.objects.filter(user=request.user, words_list_id=pk)
 
     if subscribed_list.exists():
         subscribed_list.delete()
-        messages.success(request, "You has been successfully unsubscribe.")
+        htmx_message = HtmxMessage.success(
+            message="You has been successfully unsubscribe."
+        )
 
     context = {"user_subscribed_lists": user_subscribed_lists(request)}
-    return render(request, "partials/subscribed_lists_list.html", context)
+
+    response = render(request, "partials/subscribed_lists_list.html", context)
+    response[HtmxMessage.HEADER] = htmx_message
+    return response
 
 
 @login_required

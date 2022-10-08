@@ -1,9 +1,3 @@
-{% if messages %}
-<div hx-get="{% url 'clear_messages' %}" hx-trigger="load delay:2s">
-  {% include 'partials/messages.html' %}
-</div>
-{% endif %}
-
 {% for word in list_of_words %}
 <div class="row wire-frame p-2 mx-0 mt-3">
 

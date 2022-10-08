@@ -1,0 +1,29 @@
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div id="toast" class="toast align-items-center border-0 fade">
+    <div class="d-flex">
+      <div id="toast-body" class="toast-body"></div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+<!-- Message JS -->
+<script>
+  const toastBody = document.getElementById("toast-body")
+
+  htmx.on("showMessage", (e) => {
+    toastBody.innerText = e.detail.message
+    htmx.addClass(htmx.find('#toast'), 'show');
+
+    htmx.removeClass(htmx.find('#toast'), 'alert-danger');
+    htmx.removeClass(htmx.find('#toast'), 'alert-success');
+    htmx.removeClass(htmx.find('#toast'), 'alert-info');
+
+    if (e.detail.level === "error") {
+      htmx.addClass(htmx.find('#toast'), 'alert-danger');
+    } else if (e.detail.level === "success") {
+      htmx.addClass(htmx.find('#toast'), 'alert-success');
+    } else if (e.detail.level === "info") {
+      htmx.addClass(htmx.find('#toast'), 'alert-info');
+    }
+  })
+</script>
