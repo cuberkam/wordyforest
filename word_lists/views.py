@@ -269,5 +269,5 @@ def subscribed_list_details(request, pk):
     return render(
         request,
         "subscribed_list_details.html",
-        words_list_with_list_of_words(pk),
+        words_list_with_list_of_words(request, pk),
     )

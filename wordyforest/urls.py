@@ -26,6 +26,6 @@ urlpatterns = [
     path("", include("main_page.urls")),
     path("auth/", include("users.urls")),
     path("settings/", include("settings.urls")),
-    path("word_lists/", include("word_lists.urls")),
-    path("clear_messages/", clear_messages, name="clear_messages"),
+    path("word-lists/", include("word_lists.urls")),
+    path("clear-messages/", clear_messages, name="clear_messages"),
 ]

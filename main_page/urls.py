@@ -7,8 +7,8 @@ urlpatterns = [
 ]
 
 htmx_urlpatterns = [
-    path("next_word/", views.next_word, name="next_word"),
-    path("translate_word/", views.translate_word, name="translate_word"),
+    path("next-word/", views.next_word, name="next_word"),
+    path("translate-word/", views.translate_word, name="translate_word"),
 ]
 
 urlpatterns += htmx_urlpatterns
