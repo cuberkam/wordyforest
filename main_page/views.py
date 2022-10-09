@@ -157,17 +157,13 @@ def translate_word(request):
 
 class Index(View):
     def get(self, request):
-        context = {
-            "selected_words_list_name": "default_words_list",
-            "list_of_words_list": list_of_words_list(request),
-        }
+        context = list_of_words_list(request)
+        context["selected_words_list_name"] = "default_words_list"
 
         return render(request, "index.html", context)
 
     def post(self, request):
-        context = {
-            "list_of_words_list": list_of_words_list(request),
-        }
+        context = list_of_words_list(request)
         button_name = request.POST.get("button")
 
         if button_name == "choose_words_list":
@@ -198,12 +194,11 @@ def give_random_word_from_words_list(ids_list=None):
 
 
 def list_of_words_list(request):
-    all_words_list = WordsList.objects.filter(is_private=False)
+    all_words_list = {"default_words_lists": WordsList.objects.filter(is_private=False)}
 
     if request.user.is_authenticated:
-        user_words_list = WordsList.objects.filter(user=request.user)
-        user_subscribed_list = user_subscribed_lists(request)
-        all_words_list = all_words_list | user_words_list | user_subscribed_list
+        all_words_list["user_words_list"] = WordsList.objects.filter(user=request.user)
+        all_words_list["user_subscribed_list"] = user_subscribed_lists(request)
 
     return all_words_list
 

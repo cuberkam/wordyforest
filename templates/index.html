@@ -14,21 +14,61 @@
         {% endif %}
       </button>
       <ul id="choose-list" class="dropdown-menu">
-        {% for words_list in list_of_words_list %}
-        <form id="choose-list" action="{% url 'index' %}" method="post">
-          {% csrf_token %}
-          <input type="hidden" class="dropdown-item" name="button" value="choose_words_list">
-          <input type="hidden" class="dropdown-item" name="words_list_id" value="{{words_list.pk}}">
-          <input type="hidden" class="dropdown-item" name="words_list_name" value="{{words_list.name}}">
-          <button class="dropdown-item" name="button_ismi" value="choose_words_list">
-            {% if words_list.name in "default_words_list" %}
-            Default Words List
-            {% else %}
-            {{words_list.name}}
-            {% endif %}
-          </button>
-        </form>
-        {% endfor %}
+
+        <ul><span class="text-uppercase fw-bolder me-3">Default Words Lists</span>
+          {% for words_list in default_words_lists %}
+          <form id="choose-list" action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" class="dropdown-item" name="button" value="choose_words_list">
+            <input type="hidden" class="dropdown-item" name="words_list_id" value="{{words_list.pk}}">
+            <input type="hidden" class="dropdown-item" name="words_list_name" value="{{words_list.name}}">
+            <button class="dropdown-item" name="button_ismi" value="choose_words_list">
+              {% if words_list.name in "default_words_list" %}
+              Default Words List
+              {% else %}
+              {{words_list.name}}
+              {% endif %}
+            </button>
+          </form>
+          {% endfor %}
+        </ul>
+
+        <ul><span class="text-uppercase fw-bolder me-3">My Words Lists</span>
+          {% for words_list in user_words_list %}
+          <form id="choose-list" action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" class="dropdown-item" name="button" value="choose_words_list">
+            <input type="hidden" class="dropdown-item" name="words_list_id" value="{{words_list.pk}}">
+            <input type="hidden" class="dropdown-item" name="words_list_name" value="{{words_list.name}}">
+            <button class="dropdown-item" name="button_ismi" value="choose_words_list">
+              {% if words_list.name in "default_words_list" %}
+              Default Words List
+              {% else %}
+              {{words_list.name}}
+              {% endif %}
+            </button>
+          </form>
+          {% endfor %}
+        </ul>
+
+        <ul><span class="text-uppercase fw-bolder me-3">Subscribed Words Lists</span>
+          {% for words_list in user_subscribed_list %}
+          <form id="choose-list" action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" class="dropdown-item" name="button" value="choose_words_list">
+            <input type="hidden" class="dropdown-item" name="words_list_id" value="{{words_list.pk}}">
+            <input type="hidden" class="dropdown-item" name="words_list_name" value="{{words_list.name}}">
+            <button class="dropdown-item" name="button_ismi" value="choose_words_list">
+              {% if words_list.name in "default_words_list" %}
+              Default Words List
+              {% else %}
+              {{words_list.name}}
+              {% endif %}
+            </button>
+          </form>
+          {% endfor %}
+        </ul>
+
       </ul>
     </div>
   </div>
