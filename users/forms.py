@@ -76,3 +76,47 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()
         fields = ("username", "email")
+
+
+class ForgotPassword(forms.Form):
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(
+            attrs={"class": "form-control", "placeholder": "Email"}
+        ),
+    )
+
+    def clean(self):
+        email = self.cleaned_data.get("email")
+
+        values = {"email": email}
+        return values
+
+
+class ResetPassword(forms.Form):
+    password = forms.CharField(
+        max_length=16,
+        min_length=8,
+        label="Password",
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control", "placeholder": "Password"}
+        ),
+    )
+    password2 = forms.CharField(
+        max_length=16,
+        min_length=8,
+        label="Password Check",
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control", "placeholder": "Password Check"}
+        ),
+    )
+
+    def clean(self):
+        password = self.cleaned_data.get("password")
+        password2 = self.cleaned_data.get("password2")
+
+        if password and password2 and password != password2:
+            raise forms.ValidationError("Passwords do not match")
+
+        values = {"password": password}
+        return values

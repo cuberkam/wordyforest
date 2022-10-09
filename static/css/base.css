@@ -48,6 +48,14 @@ body {
     text-decoration: none;
 }
 
+.a-link:link {
+    --bs-link-color: var(--dark-blue);
+}
+
+.a-link:hover {
+    color: var(--primary);
+}
+
 li {
     text-decoration: none;
 }

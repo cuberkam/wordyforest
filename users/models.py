@@ -1,5 +1,8 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 from .manager import CustomUserManager
 
@@ -24,3 +27,17 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+def number_of_days_left():
+    return timezone.now() + timezone.timedelta(days=1)
+
+
+class ResetPassword(models.Model):
+    user = models.ForeignKey(CustomUser, models.DO_NOTHING)
+    url_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    expire_date = models.DateTimeField(null=False, default=number_of_days_left)
+
+    def __str__(self) -> str:
+        return f"{self.user} - {self.url_id}"
