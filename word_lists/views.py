@@ -43,6 +43,7 @@ def words_list_details(request, pk):
     return render(request, "words_list_details.html", words_list_with_list_of_words(pk))
 
 
+@login_required
 def words_list_with_list_of_words(pk):
     words_list = WordsList.objects.filter(pk=pk)
     list_of_words = Dictionary.objects.filter(pk__in=words_list.get().words)

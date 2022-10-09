@@ -52,7 +52,7 @@ def register(request):
     return render(request, "register.html", context)
 
 
-@login_required(login_url="auth:login")
+@login_required
 def logout_user(request):
     logout(request)
     return redirect("index")
