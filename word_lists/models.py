@@ -1,16 +1,17 @@
 import uuid
 
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
 class WordsList(models.Model):
     name = models.CharField(max_length=50)
     created_date = models.DateField(auto_now_add=True)
-    words = ArrayField(models.IntegerField(), null=True, default=list)
+    _words = models.CharField(max_length=10000, default=str)
     user = models.ForeignKey("users.CustomUser", models.CASCADE)
     is_private = models.BooleanField(default=True)
-    share_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    share_id = models.CharField(
+        max_length=50, unique=True, default=uuid.uuid4, editable=False
+    )
 
     class Meta:
         ordering = ["created_date"]
@@ -20,6 +21,19 @@ class WordsList(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def words(self):
+        str_list = self._words.split(",")
+        if str_list[0] != "":
+            deneme = [int(i) for i in str_list]
+            return deneme
+        return []
+
+    @words.setter
+    def words(self, values):
+        self._words = ",".join([str(x) for x in values])
+        self.save()
 
 
 class SubscribedList(models.Model):

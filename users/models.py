@@ -35,7 +35,9 @@ def number_of_days_left():
 
 class ResetPassword(models.Model):
     user = models.ForeignKey(CustomUser, models.DO_NOTHING)
-    url_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    url_id = models.CharField(
+        max_length=50, unique=True, default=uuid.uuid4, editable=False
+    )
     created_date = models.DateTimeField(auto_now_add=True)
     expire_date = models.DateTimeField(null=False, default=number_of_days_left)
 

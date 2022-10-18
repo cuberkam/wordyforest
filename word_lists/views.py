@@ -41,7 +41,9 @@ def my_lists(request):
 @login_required
 def words_list_details(request, pk):
     return render(
-        request, "words_list_details.html", words_list_with_list_of_words(request, pk)
+        request,
+        "words_list_details.html",
+        words_list_with_list_of_words(request, pk),
     )
 
 
@@ -93,7 +95,7 @@ def delete_word_from_words_list(request, pk, word_pk):
     list_of_words_in_words_list = words_list.get().words
     list_of_words_in_words_list.remove(int(word_pk))
 
-    words_list.update(words=list_of_words_in_words_list)
+    words_list.get().words = list_of_words_in_words_list
 
     list_of_words = Dictionary.objects.filter(pk__in=list_of_words_in_words_list).all()
 
@@ -142,8 +144,8 @@ def add_words(request, pk, word_pk):
                 message="The word has already been added to the list."
             )
         else:
-            list_of_words_in_words_list.append(int(word_pk))
-            words_list.update(words=list_of_words_in_words_list)
+            list_of_words_in_words_list.append(word_pk)
+            words_list.get().words = list_of_words_in_words_list
             htmx_message = HtmxMessage.success(
                 message="The word has been successfully added to the list."
             )

@@ -181,6 +181,8 @@ def give_random_word_from_words_list(ids_list=None):
 
     if ids_list is None:
         dictionary = Dictionary.objects.all()
+        # dictionary_first_id = dictionary.first("id").id
+        # dictionary_last_id = dictionary.latest("id").id
         dictionary_length = dictionary.count()
         random_dictionary_id = random.SystemRandom().randint(2, dictionary_length)
 

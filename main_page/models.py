@@ -1,4 +1,3 @@
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -34,4 +33,8 @@ class Languages(models.Model):
 class Synonyms(models.Model):
     dictionary = models.ForeignKey(Dictionary, models.CASCADE)
     type = models.CharField(max_length=1000, null=True)
-    words = ArrayField(models.CharField(max_length=10000), default=list, null=True)
+    _words = models.CharField(max_length=10000, null=True, default=str)
+
+    @property
+    def words(self):
+        return self._words.split(",")
