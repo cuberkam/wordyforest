@@ -7,7 +7,7 @@
     <div id="create-list">
       <form class="mb-3" action="" method="post">
         {% csrf_token %}
-        <input placeholder="Type Your New List Name" class="form-control" name="list_name"
+        <input placeholder="Type Your New List Name" class="form-control mb-2" name="list_name"
           style="width: unset; display: unset;">
         <input type="hidden" name="button" value="create_list">
         <button type="submit" class="button button-blue button-hover-light">CREATE</button>
@@ -24,7 +24,7 @@
     <section>
       <h2 class="borderbottom-blue">Subscribed Lists</h2>
       <form hx-put="{% url 'subscribe_list' %}" hx-target="#subscribed-lists">
-        <input type="text" class="form-control" placeholder="Type Share Code" name="share_code"
+        <input type="text" class="form-control mb-2" placeholder="Type Share Code" name="share_code"
           style="width: unset; display: unset;">
         <button id="subscribe" class="button button-hover-light button-blue" type="submit">
           SUBSCRIBE

@@ -246,6 +246,10 @@ li {
     .w-50 {
         width: 100% !important;
     }
+
+    .col-100 {
+        flex: 1 0 100%;
+    }
 }
 
 /* #endregion MediaQuery */

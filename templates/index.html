@@ -4,7 +4,7 @@
 <div class="position-relative" style="top: 0%; left: 0%;">
   <div class="position-absolute">
     <div class="dropdown mb-2 cylist-sm">
-      <label for="#choose-list"> CHOOSE WORDS LIST: </label>
+      <div for="#choose-list"> CHOOSE WORDS LIST: </div>
       <button id="choose-list" class="dropdown-toggle btn-dropdown button-hover-dark" type="button"
         data-bs-toggle="dropdown" aria-expanded="true">
         {% if selected_words_list_name in "default_words_list" %}
@@ -73,7 +73,7 @@
     </div>
   </div>
 </div>
-
+<br>
 
 <div id="word-translate">
   {% include 'partials/word_and_translate.html' %}

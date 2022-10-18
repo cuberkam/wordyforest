@@ -10,7 +10,7 @@
     <form id="translate-form" class="p-0 mb-3 mt-3" action="{% url 'settings' %}" method="post">
       <div class="row pl-0" style="padding-right: .9rem;">
         <div class="col">
-          <select class="form-select btn-dropdown button-hover-light" style="width: 227px; padding-right: 2rem;"
+          <select class="form-select btn-dropdown button-hover-light mb-2" style="width: 227px; padding-right: 2rem;"
             name="destination_language">
             {% if destination_language is None %}
             <option selected disabled hidden>CHOOSE LANGUAGE</option>
