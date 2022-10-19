@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}{{ words_list.name }}{% endblock %}
 {% block content %}
-<div class="row justify-content-md-center">
+<div class="row justify-content-center px-3">
   <div class="col-md-7 box p-4">
 
     <div id="list-name">
       {{ words_list.name }}
+    </div>
+    <div id="list-name">
+      Created by {{ request.user.email }}
     </div>
 
     <hr>
