@@ -3,6 +3,7 @@ import uuid
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.db.models import Q
 from django.http import QueryDict
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -115,8 +116,10 @@ def search_words(request):
     if search_text == "":
         return HttpResponse("")
 
-    results = Dictionary.objects.filter(word__icontains=search_text).exclude(
-        pk__in=user_words_list_words
+    results = (
+        Dictionary.objects.filter(Q(word__startswith=search_text))
+        .exclude(pk__in=user_words_list_words)
+        .order_by("id")
     )
 
     context = {
