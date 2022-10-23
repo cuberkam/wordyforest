@@ -14,9 +14,6 @@
         </li>
         {% if request.user.is_authenticated %}
         <li class="nav-item">
-          <span class="nav-link link py-0">{{request.user}}</span>
-        </li>
-        <li class="nav-item">
           <a class="nav-link link py-0 {% if request.resolver_match.url_name == 'my_lists' %}
           active-link
           {% endif %}" href="{% url 'my_lists' %}">MY LISTS</a>
@@ -28,6 +25,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link link py-0" href="{% url 'logout' %}">LOGOUT</a>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link link py-0" style="pointer-events: none;">{{request.user}}</span>
         </li>
         {% else %}
         <li class="nav-item">

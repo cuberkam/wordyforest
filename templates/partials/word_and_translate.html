@@ -11,48 +11,58 @@
 </div>
 
 <div class="row box mx-1 ps-3" style="margin-bottom: .5rem;">
+
   <div class="col-sm ps-0 pe-3 py-3">
 
-    <p class="mb-1 fw-bold">WORD</p>
-    <p class="wire-frame p-3">
-      <span id="word" class="text-uppercase">{{ word.word }}</span>
-      {% if word.type %}
-      <span id="type">({{ word.type }})</span>
-      {% endif %}
-    </p>
+    <div class="wire-frame p-3">
 
-    <p class="mb-1 fw-bold">DESCRIPTION</p>
-    <div class="wire-frame p-3 mb-3">
-      <span id="description" class="upper-fl">{{ word.description }}</span>
-    </div>
+      <p><span class="mb-1 fw-bold">WORD: </span>
+        <span id="word" class="text-uppercase">{{ word.word }}</span>
+        {% if word.type %}
+        <span id="type">({{ word.type }})</span>
+        {% endif %}
+      </p>
 
-    <p class="mb-1 fw-bold">EXAMPLE</p>
-    <div class="wire-frame p-3 mb-3">
-      {% if word.example == None %}
-      <span id="example"> </span>
-      {% else %}
-      <span id="example" class="upper-fl">{{ word.example }}</span>
-      {% endif %}
-    </div>
+      <p><span class="mb-1 fw-bold">DESCRIPTION: </span>
+        <span id="description" class="upper-fl">{{ word.description }}</span>
+      </p>
 
-    <p class="mb-0 fw-bold">SYNONYMS</p>
-    {% if synonyms %}
-    {% for i in synonyms %}
-    <div class="wire-frame p-2 mt-1">
-      {% for word in i.words %}
-      <span class="badge m-1 badge-primary">{{word}}</span>
-      {% endfor %}
-    </div>
-    {% endfor %}
-    {% else %}
-    <div class="wire-frame p-2">
-    </div>
-    {% endif %}
+      <p><span class="mb-1 fw-bold">EXAMPLE: </span>
+        {% if word.example == None %}
+        <span id="example"></span>
+        {% else %}
+        <span id="example" class="upper-fl">{{ word.example }}</span>
+        {% endif %}
+      </p>
 
+      <p><span class="mb-0 fw-bold">SYNONYMS</span>
+        <br>
+        {% if synonyms %}
+
+        {% for i in synonyms %}
+
+        {% for word in i.words %}
+        <span class="badge m-1 badge-primary">{{word}}</span>
+        {% endfor %}
+
+        {% if i != synonyms.last %}
+
+        <hr>
+
+        {% endif %}
+
+        {% endfor %}
+
+        {% else %}
+
+        {% endif %}
+      </p>
+
+    </div>
   </div>
 
   <div class="col-sm ps-0 pe-3 py-3">
-    <p class="mb-1 fw-bold">TRANSLATION</p>
+
     <div class="wire-frame p-3">
 
       <p class="mb-1">
@@ -62,7 +72,7 @@
         {% endif %}
       </p>
 
-      <p class="mb-1 fw-bold">TRANSLATIONS:
+      <p class="mb-1 fw-bold">TRANSLATIONS
         {% if translated_data is not None %}
         <ul>
           {% for i in translated_data.translate %}
@@ -83,7 +93,7 @@
   hx-vals='js:{"selected_words_list_id":"{{selected_words_list_id}}","selected_words_list_name":"{{selected_words_list_name}}","word_id":{{word.id}}}'>
   <div class="row pl-0" style="padding-right: .9rem;">
 
-    <div class="col">
+    <div class="col mb-2">
       <select class="form-select btn-dropdown button-hover-dark" style="width: 227px; padding-right: 2rem;"
         name="destination_language">
         {% if destination_language is None %}
