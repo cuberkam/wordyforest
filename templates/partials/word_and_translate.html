@@ -10,6 +10,7 @@
   </div>
 </div>
 
+{% if word %}
 <div class="row box mx-1 ps-3" style="margin-bottom: .5rem;">
 
   <div class="col-sm ps-0 pe-3 py-3">
@@ -117,3 +118,23 @@
 
   </div>
 </form>
+
+{% else %}
+<div class="row box mx-1 ps-3" style="margin-bottom: .5rem;">
+
+  <div class="col-sm ps-0 pe-3 py-3">
+    <div class="wire-frame p-3">
+      <ul>
+        <li>A random word from the list chosen in the <strong>CHOOSE WORDS LIST</strong> is displayed when the
+          <strong>NEXT</strong>
+          button is pressed.
+        </li>
+        <li>You can see the word's translation for the chosen language in <strong>CHOOSE LANGUAGE</strong> by clicking
+          the <strong>TRANSLATE</strong>
+          button. Any language that you choose can be selected as the default language in Settings.</li>
+        <li>By registering, you may make your own Words Lists.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endif %}
