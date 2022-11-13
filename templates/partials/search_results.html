@@ -1,6 +1,6 @@
 <div style="overflow-y: scroll; height:70vh;">
   {% for word in results %}
-  <div class="wire-frame p-2 mx-0 mt-2">
+  <div class="wire-frame p-2 mx-0 mt-2" _="on click wait 100ms then remove me">
     <span id="word" class="mt-2 fw-bold">{{word.word}} (<span class="text-muted">{{word.type}}</span>)</span> <br>
     <span>{{word.description}}</span> <br>
 
