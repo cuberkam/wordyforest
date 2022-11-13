@@ -24,9 +24,10 @@
     <section>
       <h2 class="borderbottom-blue">Subscribed Lists</h2>
       <form hx-put="{% url 'subscribe_list' %}" hx-target="#subscribed-lists">
-        <input type="text" class="form-control mb-2" placeholder="Type Share Code" name="share_code"
+        <input id="code-input" type="text" class="form-control mb-2" placeholder="Type Share Code" name="share_code"
           style="width: unset; display: unset;">
-        <button id="subscribe" class="button button-hover-light button-blue" type="submit">
+        <button id="subscribe" class="button button-hover-light button-blue" type="submit"
+          _="on click wait 100ms then put '' into #code-input.value">
           SUBSCRIBE
         </button>
       </form>
